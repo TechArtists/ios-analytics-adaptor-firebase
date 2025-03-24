@@ -25,7 +25,7 @@ SOFTWARE.
 //  FirebaseAnalyticsConsumer.swift
 //  Created by Adi on 10/24/22.
 //
-//  Copyright (c) 2022 TA SRL (http://TA.com/)
+//  Copyright (c) 2022 Tech Artists Agency SRL
 //
 
 import Foundation

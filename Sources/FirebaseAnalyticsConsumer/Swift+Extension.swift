@@ -24,7 +24,7 @@ SOFTWARE.
 
 //
 //  Swift+Extension.swift
-//  TAAnalyticsFirebaseConsumer
+//  FirebaseAnalyticsConsumer
 //
 //  Created by Robert Tataru on 16.01.2025.
 //
