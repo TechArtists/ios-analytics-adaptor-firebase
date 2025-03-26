@@ -45,7 +45,7 @@ public class FirebaseAnalyticsConsumer: AnalyticsConsumer, AnalyticsConsumerWith
 
     public typealias T = FirebaseAnalytics.Analytics.Type
     
-    private var userDefaults: UserDefaults? = UserDefaults(suiteName: "firebase-analytics-consumer")
+    private var userDefaults: UserDefaults?
     private let enabledInstallTypes: [TAAnalyticsConfig.InstallType]
     private var currentInstallType: TAAnalyticsConfig.InstallType?
     
