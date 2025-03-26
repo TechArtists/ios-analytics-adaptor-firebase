@@ -42,10 +42,10 @@ extension NSNumber: FirebaseParameterValue {}
 
 /// Logs events & user properties via FirebaseAnalytics
 public class FirebaseAnalyticsConsumer: AnalyticsConsumer, AnalyticsConsumerWithReadOnlyUserPseudoID {
+
+    public typealias T = FirebaseAnalytics.Analytics.Type
     
-    public typealias T = FirebaseAnalyticsConsumer
-    
-    private var userDefaults: UserDefaults?
+    private var userDefaults: UserDefaults? = UserDefaults(suiteName: "firebase-analytics-consumer")
     private let enabledInstallTypes: [TAAnalyticsConfig.InstallType]
     private var currentInstallType: TAAnalyticsConfig.InstallType?
     
@@ -164,14 +164,14 @@ public class FirebaseAnalyticsConsumer: AnalyticsConsumer, AnalyticsConsumerWith
         }
     }
     
-    public var wrappedValue: Self {
-        self
+    public var wrappedValue: FirebaseAnalytics.Analytics.Type {
+        FirebaseAnalytics.Analytics.self
     }
     
     // MARK: AnalyticsConsumerWithReadOnlyUserPseudoID
     
-    public var userPseudoID: String  {
-        return FirebaseAnalytics.Analytics.appInstanceID() ?? "0000"
+    public func getUserPseudoID() -> String? {
+        FirebaseAnalytics.Analytics.appInstanceID()
     }
     
     // MARK: AnalyticsConsumerWithReadWriteUserID

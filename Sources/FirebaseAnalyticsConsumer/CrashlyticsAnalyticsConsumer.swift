@@ -45,7 +45,7 @@ public class CrashlyticsAnalyticsConsumer: AnalyticsConsumer, AnalyticsConsumerW
     
     /// - Parameters:
     ///   - isRedacted: if parameter & user property values should be redacted
-    init(isRedacted: Bool, enabledInstallTypes: [TAAnalyticsConfig.InstallType] = TAAnalyticsConfig.InstallType.allCases) {
+    init( enabledInstallTypes: [TAAnalyticsConfig.InstallType] = TAAnalyticsConfig.InstallType.allCases, isRedacted: Bool = true) {
         self.isRedacted = isRedacted
         self.enabledInstallTypes = enabledInstallTypes
     }
