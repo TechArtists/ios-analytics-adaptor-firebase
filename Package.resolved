@@ -1,5 +1,5 @@
 {
-  "originHash" : "ed43dd4ecf7d66f6130b1e17ce6feb69664396c444f74dfe26b2eefcb0e619fa",
+  "originHash" : "5ec22a4e34613242a8e3f6f60fbf812939a06c340a53e328d342ecd6e915361e",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -123,8 +123,8 @@
       "kind" : "remoteSourceControl",
       "location" : "git@github.com:TechArtists/TAAnalytics.git",
       "state" : {
-        "revision" : "1409bc6ea7ae77cd82b949ae569e9c4b25fcfb7d",
-        "version" : "0.9.6"
+        "revision" : "1eaa6eadafe5015fc4c30eb9af03fdf618c50b1a",
+        "version" : "0.9.13"
       }
     }
   ],

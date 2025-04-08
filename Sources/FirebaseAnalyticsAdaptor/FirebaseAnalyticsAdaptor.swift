@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-//  FirebaseAnalyticsConsumer.swift
+//  FirebaseAnalyticsAdaptor.swift
 //  Created by Adi on 10/24/22.
 //
 //  Copyright (c) 2022 Tech Artists Agency SRL
@@ -41,7 +41,7 @@ extension String: FirebaseParameterValue {}
 extension NSNumber: FirebaseParameterValue {}
 
 /// Logs events & user properties via FirebaseAnalytics
-public class FirebaseAnalyticsConsumer: AnalyticsConsumer, AnalyticsConsumerWithReadOnlyUserPseudoID {
+public class FirebaseAnalyticsAdaptor: AnalyticsAdaptor, AnalyticsAdaptorWithReadOnlyUserPseudoID {
 
     public typealias T = FirebaseAnalytics.Analytics.Type
     
@@ -54,7 +54,7 @@ public class FirebaseAnalyticsConsumer: AnalyticsConsumer, AnalyticsConsumerWith
         self.enabledInstallTypes = enabledInstallTypes
     }
     
-    // MARK: AnalyticsConsumer
+    // MARK: AnalyticsAdaptor
     
     public func startFor(installType: TAAnalyticsConfig.InstallType, userDefaults: UserDefaults, TAAnalytics: TAAnalytics) async throws {
         guard self.enabledInstallTypes.contains(installType) else {
@@ -127,10 +127,7 @@ public class FirebaseAnalyticsConsumer: AnalyticsConsumer, AnalyticsConsumerWith
                 
                 newParams[newKey] = convert(parameter: newValue)
                 
-                os_log("Will trim parameters for event '%{public}@', key '%{public}@', value '%@'",
-                       log: TAAnalytics.logger,
-                       type: .error,
-                       trimmedEvent.rawValue, newKey, newValueString)
+                TAAnalyticsLogger.log("Will trim parameters for event \(trimmedEvent.rawValue), key \(newKey), value \(newValueString)", level: .error)
             } else {
                 newParams[key] = value
             }
@@ -168,13 +165,13 @@ public class FirebaseAnalyticsConsumer: AnalyticsConsumer, AnalyticsConsumerWith
         FirebaseAnalytics.Analytics.self
     }
     
-    // MARK: AnalyticsConsumerWithReadOnlyUserPseudoID
+    // MARK: AnalyticsAdaptorWithReadOnlyUserPseudoID
     
     public func getUserPseudoID() -> String? {
         FirebaseAnalytics.Analytics.appInstanceID()
     }
     
-    // MARK: AnalyticsConsumerWithReadWriteUserID
+    // MARK: AnalyticsAdaptorWithReadWriteUserID
 
     private func userDefaultsKeyFor(key: String) -> String {
         return "\(TAAnalytics.userdefaultsKeyPrefix)_firebase_\(key)"

@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-//  CrashlyticsAnalyticsConsumer.swift
+//  CrashlyticsAnalyticsAdaptor.swift
 //  Created by Adi on 10/24/22.
 //
 //  Copyright (c) 2022 Tech Artists Agency SRL
@@ -34,14 +34,14 @@ import FirebaseCrashlytics
 import FirebaseCore
 
 /// Sends messages to Crashlytics about analytics event & user properties.
-public class CrashlyticsAnalyticsConsumer: AnalyticsConsumer, AnalyticsConsumerWithWriteOnlyUserID  {
+public class CrashlyticsAnalyticsAdaptor: AnalyticsAdaptor, AnalyticsAdaptorWithWriteOnlyUserID  {
     
     public typealias T = Crashlytics
     
     private let enabledInstallTypes: [TAAnalyticsConfig.InstallType]
     private let isRedacted: Bool
     
-    // MARK: AnalyticsConsumer
+    // MARK: AnalyticsAdaptor
     
     /// - Parameters:
     ///   - isRedacted: if parameter & user property values should be redacted
@@ -59,12 +59,12 @@ public class CrashlyticsAnalyticsConsumer: AnalyticsConsumer, AnalyticsConsumerW
     }
     
     public func track(trimmedEvent: EventAnalyticsModelTrimmed, params: [String : any AnalyticsBaseParameterValue]?) {
-        let debugString = OSLogAnalyticsConsumer().debugStringForLog(eventRawValue: trimmedEvent.rawValue, params: params, privacyRedacted: isRedacted)
+        let debugString = OSLogAnalyticsAdaptor().debugStringForLog(eventRawValue: trimmedEvent.rawValue, params: params, privacyRedacted: isRedacted)
         Crashlytics.crashlytics().log(debugString)
     }
     
     public func set(trimmedUserProperty: UserPropertyAnalyticsModelTrimmed, to: String?) {
-        let debugString = OSLogAnalyticsConsumer().debugStringForSet(userPropertyRawValue: trimmedUserProperty.rawValue, to: to, privacyRedacted: isRedacted)
+        let debugString = OSLogAnalyticsAdaptor().debugStringForSet(userPropertyRawValue: trimmedUserProperty.rawValue, to: to, privacyRedacted: isRedacted)
         Crashlytics.crashlytics().log(debugString)
         Crashlytics.crashlytics().setValue(to, forKey: trimmedUserProperty.rawValue)
     }
@@ -81,7 +81,7 @@ public class CrashlyticsAnalyticsConsumer: AnalyticsConsumer, AnalyticsConsumerW
         Crashlytics.crashlytics()
     }
     
-    // MARK: AnalyticsConsumerWithWriteOnlyUserID
+    // MARK: AnalyticsAdaptorWithWriteOnlyUserID
     
     public func set(userID: String?) {
         Crashlytics.crashlytics().setUserID(userID)
