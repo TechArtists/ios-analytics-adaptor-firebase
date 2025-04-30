@@ -1,5 +1,5 @@
 {
-  "originHash" : "5ec22a4e34613242a8e3f6f60fbf812939a06c340a53e328d342ecd6e915361e",
+  "originHash" : "d12c4462b698dba82ffced101e862dc21751162a61a469bf8de0615891947629",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -83,6 +83,15 @@
       }
     },
     {
+      "identity" : "ios-analytics",
+      "kind" : "remoteSourceControl",
+      "location" : "git@github.com:TechArtists/ios-analytics.git",
+      "state" : {
+        "revision" : "1eaa6eadafe5015fc4c30eb9af03fdf618c50b1a",
+        "version" : "0.9.13"
+      }
+    },
+    {
       "identity" : "leveldb",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/leveldb.git",
@@ -116,15 +125,6 @@
       "state" : {
         "revision" : "d72aed98f8253ec1aa9ea1141e28150f408cf17f",
         "version" : "1.29.0"
-      }
-    },
-    {
-      "identity" : "taanalytics",
-      "kind" : "remoteSourceControl",
-      "location" : "git@github.com:TechArtists/TAAnalytics.git",
-      "state" : {
-        "revision" : "1eaa6eadafe5015fc4c30eb9af03fdf618c50b1a",
-        "version" : "0.9.13"
       }
     }
   ],

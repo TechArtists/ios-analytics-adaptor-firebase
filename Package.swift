@@ -38,7 +38,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/firebase/firebase-ios-sdk.git", .upToNextMajor(from: "10.0.0")),
-        .package(url: "git@github.com:TechArtists/TAAnalytics.git", from: "0.9.6")
+        .package(url: "git@github.com:TechArtists/ios-analytics.git", from: "0.9.6")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -48,7 +48,7 @@ let package = Package(
             dependencies: [
                 .product(name:"FirebaseAnalytics", package: "firebase-ios-sdk"),
                 .product(name:"FirebaseCrashlytics", package: "firebase-ios-sdk"),
-                .product(name:"TAAnalytics", package:"TAAnalytics")
+                .product(name:"TAAnalytics", package:"ios-analytics")
             ]
         ),
         .testTarget(
