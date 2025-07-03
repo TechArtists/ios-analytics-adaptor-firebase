@@ -72,7 +72,7 @@ public class CrashlyticsAnalyticsAdaptor: AnalyticsAdaptor, AnalyticsAdaptorWith
     public func set(trimmedUserProperty: UserPropertyAnalyticsModelTrimmed, to: String?) {
         let debugString = OSLogAnalyticsAdaptor().debugStringForSet(userPropertyRawValue: trimmedUserProperty.rawValue, to: to, privacyRedacted: isRedacted)
         Crashlytics.crashlytics().log(debugString)
-        Crashlytics.crashlytics().setValue(to, forKey: trimmedUserProperty.rawValue)
+        Crashlytics.crashlytics().setCustomValue(to, forKey: trimmedUserProperty.rawValue)
     }
     
     public func trim(event: EventAnalyticsModel) -> EventAnalyticsModelTrimmed {
