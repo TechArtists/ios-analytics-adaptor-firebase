@@ -56,7 +56,7 @@ public class FirebaseAnalyticsAdaptor: AnalyticsAdaptor, AnalyticsAdaptorWithRea
     
     // MARK: AnalyticsAdaptor
     
-    public func startFor(installType: TAAnalyticsConfig.InstallType, userDefaults: UserDefaults, TAAnalytics: TAAnalytics) async throws {
+    public func startFor(installType: TAAnalyticsConfig.InstallType, userDefaults: UserDefaults, taAnalytics: TAAnalytics) async throws {
         guard self.enabledInstallTypes.contains(installType) else {
             throw InstallTypeError.invalidInstallType
         }

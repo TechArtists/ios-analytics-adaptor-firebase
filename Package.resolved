@@ -1,5 +1,5 @@
 {
-  "originHash" : "d12c4462b698dba82ffced101e862dc21751162a61a469bf8de0615891947629",
+  "originHash" : "1fb4938391005a36f0501d7c16850c0c3f088b784be6a154185d60b228cfa637",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -85,10 +85,10 @@
     {
       "identity" : "ios-analytics",
       "kind" : "remoteSourceControl",
-      "location" : "git@github.com:TechArtists/ios-analytics.git",
+      "location" : "https://github.com/TechArtists/ios-analytics.git",
       "state" : {
-        "revision" : "1eaa6eadafe5015fc4c30eb9af03fdf618c50b1a",
-        "version" : "0.9.13"
+        "revision" : "7d01e900ae105240a07a0d0dd92dae65c3f04590",
+        "version" : "0.9.17"
       }
     },
     {

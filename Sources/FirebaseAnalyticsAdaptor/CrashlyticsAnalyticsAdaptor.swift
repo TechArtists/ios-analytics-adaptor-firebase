@@ -50,7 +50,7 @@ public class CrashlyticsAnalyticsAdaptor: AnalyticsAdaptor, AnalyticsAdaptorWith
         self.enabledInstallTypes = enabledInstallTypes
     }
     
-    public func startFor(installType: TAAnalyticsConfig.InstallType, userDefaults: UserDefaults, TAAnalytics: TAAnalytics) async throws {
+    public func startFor(installType: TAAnalyticsConfig.InstallType, userDefaults: UserDefaults, taAnalytics: TAAnalytics) async throws {
         if !self.enabledInstallTypes.contains(installType) {
             throw InstallTypeError.invalidInstallType
         }
