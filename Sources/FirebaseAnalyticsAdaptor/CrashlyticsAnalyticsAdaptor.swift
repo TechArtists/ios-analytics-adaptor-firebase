@@ -40,14 +40,16 @@ public class CrashlyticsAnalyticsAdaptor: AnalyticsAdaptor, AnalyticsAdaptorWith
     
     private let enabledInstallTypes: [TAAnalyticsConfig.InstallType]
     private let isRedacted: Bool
+    private let shouldStartFirebase: Bool
     
     // MARK: AnalyticsAdaptor
     
     /// - Parameters:
     ///   - isRedacted: if parameter & user property values should be redacted
-    public init( enabledInstallTypes: [TAAnalyticsConfig.InstallType] = TAAnalyticsConfig.InstallType.allCases, isRedacted: Bool = true) {
+    public init( enabledInstallTypes: [TAAnalyticsConfig.InstallType] = TAAnalyticsConfig.InstallType.allCases, isRedacted: Bool = true, shouldStartFirebase: Bool = true) {
         self.isRedacted = isRedacted
         self.enabledInstallTypes = enabledInstallTypes
+        self.shouldStartFirebase = shouldStartFirebase
     }
     
     public func startFor(installType: TAAnalyticsConfig.InstallType, userDefaults: UserDefaults, taAnalytics: TAAnalytics) async throws {
@@ -55,7 +57,11 @@ public class CrashlyticsAnalyticsAdaptor: AnalyticsAdaptor, AnalyticsAdaptorWith
             throw InstallTypeError.invalidInstallType
         }
         
-        FirebaseCore.FirebaseApp.configure()
+        if shouldStartFirebase {
+            FirebaseCore.FirebaseApp.configure()
+        } else {
+            TAAnalyticsLogger.log("Skipping Configuring FirebaseApp", level: .info)
+        }
     }
     
     public func track(trimmedEvent: EventAnalyticsModelTrimmed, params: [String : any AnalyticsBaseParameterValue]?) {

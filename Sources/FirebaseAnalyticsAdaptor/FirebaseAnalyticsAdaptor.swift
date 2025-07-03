@@ -48,10 +48,12 @@ public class FirebaseAnalyticsAdaptor: AnalyticsAdaptor, AnalyticsAdaptorWithRea
     private var userDefaults: UserDefaults?
     private let enabledInstallTypes: [TAAnalyticsConfig.InstallType]
     private var currentInstallType: TAAnalyticsConfig.InstallType?
+    private let shouldStartFirebase: Bool
     
     /// - Parameter enabledInstallTypes: By default, Firebase is only enabled for app store builds
-    public init(enabledInstallTypes: [TAAnalyticsConfig.InstallType] = TAAnalyticsConfig.InstallType.allCases) {
+    public init(enabledInstallTypes: [TAAnalyticsConfig.InstallType] = TAAnalyticsConfig.InstallType.allCases, shouldStartFirebase: Bool = true) {
         self.enabledInstallTypes = enabledInstallTypes
+        self.shouldStartFirebase = shouldStartFirebase
     }
     
     // MARK: AnalyticsAdaptor
@@ -64,7 +66,11 @@ public class FirebaseAnalyticsAdaptor: AnalyticsAdaptor, AnalyticsAdaptorWithRea
         self.userDefaults = userDefaults
         self.currentInstallType = installType
         
-        FirebaseCore.FirebaseApp.configure()
+        if shouldStartFirebase {
+            FirebaseCore.FirebaseApp.configure()
+        } else {
+            TAAnalyticsLogger.log("Skipping Configuring FirebaseApp", level: .info)
+        }
     }
 
     public func track(trimmedEvent: EventAnalyticsModelTrimmed, params: [String : any AnalyticsBaseParameterValue]?) {
