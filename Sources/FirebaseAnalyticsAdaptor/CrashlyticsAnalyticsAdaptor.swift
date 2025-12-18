@@ -60,7 +60,7 @@ public class CrashlyticsAnalyticsAdaptor: AnalyticsAdaptor, AnalyticsAdaptorWith
         if shouldStartFirebase {
             FirebaseCore.FirebaseApp.configure()
         } else {
-            TAAnalyticsLogger.log("Skipping Configuring FirebaseApp", level: .info)
+            TALogger.log(level: .info, "Skipping Configuring FirebaseApp")
         }
     }
     

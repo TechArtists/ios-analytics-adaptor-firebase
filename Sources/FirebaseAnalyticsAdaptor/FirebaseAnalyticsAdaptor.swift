@@ -69,7 +69,7 @@ public class FirebaseAnalyticsAdaptor: AnalyticsAdaptor, AnalyticsAdaptorWithRea
         if shouldStartFirebase {
             FirebaseCore.FirebaseApp.configure()
         } else {
-            TAAnalyticsLogger.log("Skipping Configuring FirebaseApp", level: .info)
+            TALogger.log(level: .info, "Skipping Configuring FirebaseApp")
         }
     }
 
@@ -133,7 +133,7 @@ public class FirebaseAnalyticsAdaptor: AnalyticsAdaptor, AnalyticsAdaptorWithRea
                 
                 newParams[newKey] = convert(parameter: newValue)
                 
-                TAAnalyticsLogger.log("Will trim parameters for event \(trimmedEvent.rawValue), key \(newKey), value \(newValueString)", level: .error)
+                TALogger.log(level: .error, "Will trim parameters for event \(trimmedEvent.rawValue), key \(newKey), value \(newValueString)")
             } else {
                 newParams[key] = value
             }
