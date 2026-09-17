@@ -22,14 +22,40 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-//import XCTest
-//@testable import OverbaseAnalyticsWithFirebase
-//
-//final class OverbaseAnalyticsWithFirebaseTests: XCTestCase {
-//    func testExample() throws {
-//        // This is an example of a functional test case.
-//        // Use XCTAssert and related functions to verify your tests produce the correct
-//        // results.
-//        XCTAssertEqual("Hello, World!", "Hello, World!")
-//    }
-//}
+import XCTest
+@testable import FirebaseAnalyticsAdaptor
+
+final class FirebaseAnalyticsAdaptorTests: XCTestCase {
+    func testTrimmedUserPropertyValueLeavesShortValuesUntouched() {
+        let adaptor = FirebaseAnalyticsAdaptor(shouldStartFirebase: false)
+
+        XCTAssertEqual(adaptor.trimmedUserPropertyValue("feature_tour"), "feature_tour")
+        XCTAssertNil(adaptor.trimmedUserPropertyValue(nil))
+    }
+
+    func testTrimmedUserPropertyValueCapsFirebaseValuesAt36Characters() {
+        let adaptor = FirebaseAnalyticsAdaptor(shouldStartFirebase: false)
+        let longValue = String(repeating: "A", count: 40)
+
+        XCTAssertEqual(
+            adaptor.trimmedUserPropertyValue(longValue),
+            String(longValue.prefix(firebaseUserPropertyValueMaxLength))
+        )
+        XCTAssertEqual(
+            adaptor.trimmedUserPropertyValue(longValue)?.count,
+            firebaseUserPropertyValueMaxLength
+        )
+    }
+
+    /// The case that motivated the fix: a real campaign name overruns 36 characters, and Firebase
+    /// drops the whole property rather than truncating, so GA4 loses attribution entirely.
+    func testTrimmedUserPropertyValueKeepsALongCampaignNameUsable() {
+        let adaptor = FirebaseAnalyticsAdaptor(shouldStartFirebase: false)
+        let campaign = "asa_us_brand_exact_iphone_2026q3_launch"
+
+        XCTAssertEqual(
+            adaptor.trimmedUserPropertyValue(campaign),
+            "asa_us_brand_exact_iphone_2026q3_lau"
+        )
+    }
+}

@@ -40,6 +40,11 @@ public protocol FirebaseParameterValue {}
 extension String: FirebaseParameterValue {}
 extension NSNumber: FirebaseParameterValue {}
 
+internal let firebaseEventNameMaxLength = 40
+internal let firebaseEventParameterValueMaxLength = 100
+internal let firebaseUserPropertyNameMaxLength = 24
+internal let firebaseUserPropertyValueMaxLength = 36
+
 /// Logs events & user properties via FirebaseAnalytics
 public class FirebaseAnalyticsAdaptor: AnalyticsAdaptor, AnalyticsAdaptorWithReadOnlyUserPseudoID {
 
@@ -85,11 +90,11 @@ public class FirebaseAnalyticsAdaptor: AnalyticsAdaptor, AnalyticsAdaptorWithRea
     }
     
     public func trim(event: EventAnalyticsModel) -> EventAnalyticsModelTrimmed {
-        EventAnalyticsModelTrimmed(event.rawValue.ta_trim(toLength: 40, debugType: "event"))
+        EventAnalyticsModelTrimmed(event.rawValue.ta_trim(toLength: firebaseEventNameMaxLength, debugType: "event"))
     }
     
     public func trim(userProperty: UserPropertyAnalyticsModel) -> UserPropertyAnalyticsModelTrimmed {
-        UserPropertyAnalyticsModelTrimmed(userProperty.rawValue.ta_trim(toLength: 24, debugType: "user property"))
+        UserPropertyAnalyticsModelTrimmed(userProperty.rawValue.ta_trim(toLength: firebaseUserPropertyNameMaxLength, debugType: "user property"))
     }
     
     public func set(trimmedUserProperty: UserPropertyAnalyticsModelTrimmed, to: String?) {
@@ -97,7 +102,7 @@ public class FirebaseAnalyticsAdaptor: AnalyticsAdaptor, AnalyticsAdaptorWithRea
         if self.currentInstallType == .Xcode {
             fatalErrorIfReservedUserProperty(trimmedUserProperty.rawValue)
         }
-        FirebaseAnalytics.Analytics.setUserProperty(to, forName: trimmedUserProperty.rawValue)
+        FirebaseAnalytics.Analytics.setUserProperty( trimmedUserPropertyValue(to), forName: trimmedUserProperty.rawValue)
     }
     
     public func set(userID: String?) {
@@ -122,13 +127,13 @@ public class FirebaseAnalyticsAdaptor: AnalyticsAdaptor, AnalyticsAdaptorWithRea
         var newParams = [String: Any]()
         
         for (key, value) in params {
-            if key.count > 40 || ((value as? String)?.count ?? 0) > 100 {
-                let newKey = String(key.prefix(40))
+            if key.count > firebaseEventNameMaxLength || ((value as? String)?.count ?? 0) > firebaseEventParameterValueMaxLength {
+                let newKey = String(key.prefix(firebaseEventNameMaxLength))
                 var newValue = value
                 var newValueString = ""
                 if let value = value as? String {
-                    newValue = String(value.prefix(100))
-                    newValueString = String(value.prefix(100))
+                    newValue = String(value.prefix(firebaseEventParameterValueMaxLength))
+                    newValueString = String(value.prefix(firebaseEventParameterValueMaxLength))
                 }
                 
                 newParams[newKey] = convert(parameter: newValue)
@@ -140,7 +145,14 @@ public class FirebaseAnalyticsAdaptor: AnalyticsAdaptor, AnalyticsAdaptorWithRea
         }
         return newParams
     }
-    
+
+    /// Firebase rejects an over-long user property value outright rather than truncating it, so
+    /// without this the property is simply never set and nothing surfaces in production. Trimming
+    /// keeps a usable prefix — and `ta_trim` logs at `.error` when it cuts.
+    internal func trimmedUserPropertyValue(_ value: String?) -> String? {
+        value?.ta_trim( toLength: firebaseUserPropertyValueMaxLength, debugType: "user property value")
+    }
+
     private func convert(parameter: any AnalyticsBaseParameterValue) -> Any {
         if let string = parameter as? String {
             return string
